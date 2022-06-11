@@ -178,7 +178,7 @@
     # Editors
     neovim
     # Node packages
-    nodePackages.pnpm nodePackages.pm2
+    nodejs nodePackages.pnpm nodePackages.pm2
     # Golang
     go_1_18
     # Deno
