@@ -51,8 +51,16 @@
     commonHttpConfig = ''
     upstream frontend {
          server 127.0.0.1:3000;
-         server 127.0.0.1:4000 backup;
+         server 127.0.0.1:3010 backup;
     }
+    upstream backend {
+	server 127.0.0.1:4000;
+	server 127.0.0.1:4010 backup;
+    }
+#    location @fallback {
+#      root /var/www/static;
+#      try_files $uri =404;
+#    }
     '';
 
     virtualHosts = {
@@ -61,12 +69,28 @@
         enableACME = true;
         forceSSL = true;
 
-        locations."/" = {
-          proxyPass = "http://frontend";          
+#	locations."@fallback" = {
+#	  root = "/var/www/static";
+#	  tryFiles = "$uri =404";
+#	};
 
+        locations."/" = {
+          proxyPass = "http://frontend";
           extraConfig = ''
+
+#          location @fallback {
+#            root /var/www/static;
+#            try_files $uri =404;
+#          }
+
+#	  proxy_intercept_errors on;
+#	  error_page 404 = @fallback;
+
           etag on;
           gzip on;
+
+	  add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
+	  add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
           add_header 'Access-Control-Allow-Origin' '*' always;
           add_header 'Access-Control-Allow-Methods' 'POST, PUT, DELETE, GET, PATCH, OPTIONS' always;
@@ -88,6 +112,7 @@
           proxy_set_header Host $host;
 
           client_max_body_size 16m;
+
           '';
         };
       };
