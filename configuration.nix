@@ -173,6 +173,17 @@
   };
 
   environment.systemPackages = with pkgs; [
-    mosh btop neovim deno git nodePackages.pnpm openssl rustup
+    # Sys utils
+    mosh btop git openssl
+    # Editors
+    neovim
+    # Node packages
+    nodePackages.pnpm # nodePackages.pm2
+    # Golang
+    # go_1_18
+    # Deno
+    deno
+    # Rust utils
+    rustup
   ];
 }
