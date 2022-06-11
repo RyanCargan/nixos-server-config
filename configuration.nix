@@ -49,6 +49,8 @@
 
     commonHttpConfig = ''
 
+    index index.html;
+
     upstream frontend {
       server 127.0.0.1:3000;
       server 127.0.0.1:3010 backup;
@@ -68,7 +70,8 @@
         forceSSL = true;
 
         locations."/" = {
-          proxyPass = "http://frontend";
+          root = "/var/www/static";
+          tryFiles = "@proxy $uri";
           extraConfig = ''
 
           etag on;
@@ -99,6 +102,10 @@
           client_max_body_size 16m;
 
           '';
+        };
+
+        locations."@proxy" = {
+          proxyPass = "http://frontend";
         };
       };
     };
