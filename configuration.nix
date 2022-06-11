@@ -77,7 +77,7 @@
           proxy_intercept_errors on;
           error_page 404 = @fallback;
           
-          ''
+          '';
         };
 
         locations."@fallback" = {
