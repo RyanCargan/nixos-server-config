@@ -178,9 +178,9 @@
     # Editors
     neovim
     # Node packages
-    nodePackages.pnpm # nodePackages.pm2
+    nodePackages.pnpm nodePackages.pm2
     # Golang
-    # go_1_18
+    go_1_18
     # Deno
     deno
     # Rust utils
