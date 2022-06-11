@@ -68,10 +68,10 @@
         http2 = true;
         enableACME = true;
         forceSSL = true;
+        root = "/var/www/static";
 
         locations."/" = {
-          root = "/var/www/static";
-          tryFiles = "$uri";
+          tryFiles = "$uri @proxy";
           extraConfig = ''
 
           etag on;
