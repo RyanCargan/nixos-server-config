@@ -49,7 +49,7 @@
 
     commonHttpConfig = ''
 
-    index index.html;
+    # index index.html;
 
     upstream frontend {
       server 127.0.0.1:3000;
@@ -71,7 +71,17 @@
         root = "/var/www/static";
 
         locations."/" = {
-          tryFiles = "$uri @proxy";
+          proxyPass = "http://frontend";
+          extraConfig = ''
+          
+          proxy_intercept_errors on;
+          error_page 404 = @fallback;
+          
+          ''
+        };
+
+        locations."@fallback" = {
+          tryFiles = "$uri =404";
           extraConfig = ''
 
           etag on;
@@ -102,10 +112,6 @@
           client_max_body_size 16m;
 
           '';
-        };
-
-        locations."@proxy" = {
-          proxyPass = "http://frontend";
         };
       };
     };
