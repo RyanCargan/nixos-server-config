@@ -71,7 +71,7 @@
 
         locations."/" = {
           root = "/var/www/static";
-          tryFiles = "@proxy $uri";
+          tryFiles = "$uri";
           extraConfig = ''
 
           etag on;
