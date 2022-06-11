@@ -40,7 +40,6 @@
 
   services.nginx = {
     enable = true;
-    #addSSL = true;
 
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
@@ -49,18 +48,17 @@
     recommendedProxySettings = true;
 
     commonHttpConfig = ''
+
     upstream frontend {
-         server 127.0.0.1:3000;
-         server 127.0.0.1:3010 backup;
+      server 127.0.0.1:3000;
+      server 127.0.0.1:3010 backup;
     }
+
     upstream backend {
-	server 127.0.0.1:4000;
-	server 127.0.0.1:4010 backup;
+      server 127.0.0.1:4000;
+      server 127.0.0.1:4010 backup;
     }
-#    location @fallback {
-#      root /var/www/static;
-#      try_files $uri =404;
-#    }
+
     '';
 
     virtualHosts = {
@@ -69,28 +67,15 @@
         enableACME = true;
         forceSSL = true;
 
-#	locations."@fallback" = {
-#	  root = "/var/www/static";
-#	  tryFiles = "$uri =404";
-#	};
-
         locations."/" = {
           proxyPass = "http://frontend";
           extraConfig = ''
 
-#          location @fallback {
-#            root /var/www/static;
-#            try_files $uri =404;
-#          }
-
-#	  proxy_intercept_errors on;
-#	  error_page 404 = @fallback;
-
           etag on;
           gzip on;
 
-	  add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
-	  add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
+          add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
+          add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
           add_header 'Access-Control-Allow-Origin' '*' always;
           add_header 'Access-Control-Allow-Methods' 'POST, PUT, DELETE, GET, PATCH, OPTIONS' always;
@@ -118,123 +103,6 @@
       };
     };
   };
-
-#   security.acme.acceptTerms = true;
-#   #security.acme.email = "ryancargan@gmail.com";
-#   security.acme.certs."codinghermit.net" = {
-#     #webroot = "/var/lib/acme/.challenges";
-#     email = "ryancargan@gmail.com";
-#     group = "nginx";
-#     #extraDomainNames = [ "mail.example.com" ];
-#   };
-
-#   users.users.nginx.extraGroups = [ "acme" ];
-  
-#   services.nginx = {
-#     enable = true;
-#     recommendedProxySettings = true;
-#     recommendedTlsSettings = true;
-#     # other Nginx options
-# #    upstreams = {
-# #      "frontend" = {
-# #        servers = { "127.0.0.1:3000" = {}; };
-# #      };
-#     #    };
-#     commonHttpConfig = ''
-#     upstream node_frontend {
-#              server 127.0.0.1:3000;
-#     }
-#     upstream go_backend {
-#              server 127.0.0.1:3001;
-#     }
-#     upstream python_api {
-#              server 127.0.0.1:3002;
-#     }
-#     upstream deno_frontend
-#              server 127.0.0.1:3003;
-#     '';
-#     virtualHosts."codinghermit.net" =  {
-#       enableACME = true;
-#       forceSSL = true;
-#       #serverAliases = [ "*.codinghermit.xyz" ];
-#       #locations."/.well-known/acme-challenge" = {
-#       #  root = "/var/lib/acme/acme-challenge";
-#       #};
-#       #root = "/home/admin/workspace/monorepo/projects/react-app/dist";
-#       #index = "index.html";
-#       locations."/" = {
-#         #extraConfig = ''
-#         #try_files /maintenance.html @proxy;
-#         #location @proxy {
-#         #  proxy_pass http://127.0.0.1:3000;
-#         #}
-#         #'';
-#         extraConfig = ''
-#         # proxy_pass http://frontend;
-#         root /var/www/static;
-#         index index.html;
-#         '';
-#         #proxyPass = "http://127.0.0.1:3000";
-#         #proxyPass = "http://localhost:3000";
-#         #proxy_pass = http://frontend;
-#         #return = "301 https://$host$request_uri";
-#         #proxyPass = "http://localhost:3000";
-#         #proxyWebsockets = true; # needed if you need to use WebSocket
-#         #extraConfig =
-#           # required when the target is also TLS server with multiple hosts
-#           #"proxy_ssl_server_name on;" +
-#           # required when the server wants to use HTTP Authentication
-#           #"proxy_pass_header Authorization;"
-#         #;[
-#       };
-#       locations."/dev" ={
-#         extraConfig = ''
-#         proxy_pass http://node_frontend;
-#         '';
-#       };
-#       locations."/api" ={
-#         extraConfig = ''
-#         proxy_pass http://go_backend;
-#         '';
-#       };
-#       locations."/ml" ={
-#         extraConfig = ''
-#         proxy_pass http://python_api;
-#         '';
-#       };
-#       locations."/lite" ={
-#         extraConfig = ''
-#         proxy_pass http://deno_frontend;
-#         '';
-#       };
-#       #locations."@proxy" = {
-#        # proxyPass = "http://127.0.0.1:3000";
-#       #};
-#     };
-#   };
-
-  # systemd.services.daemon-server-node-dev = {
-  #   description = "node dev server to pass to reverse proxy in background";
-  #   enable = false;
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "network.target" ];
-  #   serviceConfig = {
-  #     Type = "exec";
-  #     User = "admin";
-  #     ExecStart = "${pkgs.nodePackages.pnpm}/bin/pnpm dev --prefix=/home/admin/workspace/monorepo/projects/react-app/";
-  #   };
-  # };
-  # systemd.services.daemon-server-node-preview = {
-  #   description = "node preview server to pass to reverse proxy in background";
-  #   enable = true;
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "network.target" ];
-  #   serviceConfig = {
-  #     Type = "exec";
-  #     User = "admin";
-  #     ExecStart = "${pkgs.nodePackages.pnpm}/bin/pnpm preview --prefix=/home/admin/workspace/monorepo/projects/react-app/";
-  #   };
-  # };
 
   environment.systemPackages = with pkgs; [
     mosh btop neovim deno git nodePackages.pnpm openssl rustup
