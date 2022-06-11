@@ -34,7 +34,7 @@
   ];
 
   security.acme = {
-    email = "ryancargan@gmail.com";
+    defaults.email = "ryancargan@gmail.com";
     acceptTerms = true;
   };
 
