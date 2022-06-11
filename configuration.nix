@@ -186,4 +186,6 @@
     # Rust utils
     rustup
   ];
+
+  system.stateVersion = "21.11";
 }
