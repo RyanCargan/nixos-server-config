@@ -142,7 +142,7 @@
         };
 
         locations."/api" = {
-          proxyPass = "http://backend";
+          proxyPass = "http://backend/";
           extraConfig = ''
 
           etag on;
