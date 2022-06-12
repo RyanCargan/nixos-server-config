@@ -74,6 +74,7 @@
 
         locations."/" = {
           root = "/var/www/static";
+          tryFiles = "$uri /index.html";
           extraConfig = ''
 
           etag on;
