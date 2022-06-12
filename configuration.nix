@@ -213,7 +213,7 @@
 
   environment.systemPackages = with pkgs; [
     # Sys utils
-    mosh btop git openssl
+    mosh btop git openssl gnumake
     # Editors
     neovim
     # Node packages
