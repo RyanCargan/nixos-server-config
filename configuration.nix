@@ -141,7 +141,7 @@
           '';
         };
 
-        locations."/api/" = {
+        locations."/api" = {
           proxyPass = "http://backend";
           extraConfig = ''
 
