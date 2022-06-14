@@ -176,7 +176,7 @@
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
           # WebSocket support
-          proxy_http_version 1.1;
+          proxy_http_version 2.0;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "Upgrade";
           proxy_set_header Host $host;
