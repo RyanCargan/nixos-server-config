@@ -216,7 +216,7 @@
           # WebSocket support
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
+          proxy_set_header Connection $connection_upgrade;
 
           # client_max_body_size 16m;
 
