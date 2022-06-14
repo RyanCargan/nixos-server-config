@@ -59,7 +59,12 @@
       server 127.0.0.1:4010 backup;
     }
 
-    upstream socket {
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '\' close;
+    }
+
+    upstream wsbackend {
       server 127.0.0.1:4001;
       server 127.0.0.1:4011 backup;
     }
@@ -165,23 +170,34 @@
         };
 
         locations."/socketapi/" = {
-          proxyPass = "http://socket/";
+          proxyPass = "http://wsbackend/";
           extraConfig = ''
 
-          etag on;
-          gzip on;
+          # etag on;
+          # gzip on;
 
           # Route support
           # proxy_set_header X-Real-IP $remote_addr;
           # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
           # WebSocket support
-          proxy_http_version 1.1;
+          # proxy_http_version 1.1;
+          # proxy_set_header Upgrade $http_upgrade;
+          # proxy_set_header Connection "Upgrade";
+          # proxy_set_header Host $host;
+
+          # WSS
+          proxy_set_header HOST $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_pass_request_headers on;
+
+          proxy_http_version 1.0;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "Upgrade";
-          proxy_set_header Host $host;
 
-          client_max_body_size 16m;
+          # client_max_body_size 16m;
 
           '';
         };
