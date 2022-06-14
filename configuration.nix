@@ -59,10 +59,10 @@
       server 127.0.0.1:4010 backup;
     }
 
-    map $http_upgrade $connection_upgrade {
-        default upgrade;
-        "" close;
-    }
+    # map $http_upgrade $connection_upgrade {
+    #     default upgrade;
+    #     "" close;
+    # }
 
     upstream wsbackend {
       server 127.0.0.1:4001;
@@ -171,6 +171,7 @@
 
         locations."/socketapi/" = {
           proxyPass = "http://wsbackend/";
+          proxyWebsockets = true;
           extraConfig = ''
 
           # etag on;
@@ -209,17 +210,17 @@
           # proxy_cache_bypass $http_upgrade;
 
           # Redirect all HTTP traffic to proxy_pass
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_redirect         off;
-          proxy_set_header X-NginX-Proxy true;
+          # proxy_set_header X-Real-IP $remote_addr;
+          # proxy_redirect         off;
+          # proxy_set_header X-NginX-Proxy true;
 
-          proxy_set_header Host $host;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          # proxy_set_header Host $host;
+          # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
           # WebSocket support
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
+          # proxy_http_version 1.1;
+          # proxy_set_header Upgrade $http_upgrade;
+          # proxy_set_header Connection "upgrade";
 
           # client_max_body_size 16m;
 
