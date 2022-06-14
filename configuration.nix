@@ -198,15 +198,25 @@
           # proxy_set_header Connection "Upgrade";
 
           # WSS Fix
-          proxy_read_timeout     60;
-          proxy_connect_timeout  60;
-          proxy_redirect         off;
+          # proxy_read_timeout     60;
+          # proxy_connect_timeout  60;
+          # proxy_redirect         off;
 
+          # proxy_http_version 1.1;
+          # proxy_set_header Upgrade $http_upgrade;
+          # proxy_set_header Connection 'Upgrade';
+          # proxy_set_header Host $host;
+          # proxy_cache_bypass $http_upgrade;
+
+          # Redirect all HTTP traffic to proxy_pass
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          # WebSocket support
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection 'Upgrade';
-          proxy_set_header Host $host;
-          proxy_cache_bypass $http_upgrade;
+          proxy_set_header Connection "upgrade";
 
           # client_max_body_size 16m;
 
