@@ -59,6 +59,11 @@
       server 127.0.0.1:4010 backup;
     }
 
+    upstream socket {
+      server 127.0.0.1:4001;
+      server 127.0.0.1:4011 backup;
+    }
+
     upstream ci {
       server 127.0.0.1:5000;
       server 127.0.0.1:5010 backup;
@@ -80,6 +85,7 @@
           etag on;
           gzip on;
 
+          # Enable SharedArrayBuffer
           add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
           add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
@@ -114,6 +120,7 @@
           etag on;
           gzip on;
 
+          # Enable SharedArrayBuffer
           add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
           add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
@@ -148,9 +155,27 @@
           etag on;
           gzip on;
 
+          # Route support
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+          client_max_body_size 16m;
+
+          '';
+        };
+
+        locations."/socketapi/" = {
+          proxyPass = "http://socket/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          # WebSocket support
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "Upgrade";
@@ -168,6 +193,7 @@
           etag on;
           gzip on;
 
+          # Enable SharedArrayBuffer
           add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
           add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
