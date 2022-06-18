@@ -89,6 +89,11 @@
           etag on;
           gzip on;
 
+          # Routing fix
+          if (!-e $request_filename){
+            rewrite ^(.*)$ /index.html break;
+          }
+
           # Enable SharedArrayBuffer
           add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
           add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
