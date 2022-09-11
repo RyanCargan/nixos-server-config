@@ -138,6 +138,9 @@
           proxy_read_timeout          1m;
           proxy_connect_timeout       1m;
 
+          	
+          add_header X-Content-Type-Options nosniff;
+
           # proxy_http_version 1.1;
           # proxy_set_header Upgrade $http_upgrade;
           # proxy_set_header Connection "upgrade";
