@@ -81,7 +81,7 @@
         enableACME = true;
         forceSSL = true;
 
-        locations."/" = {
+        locations."/dev" = {
           root = "/var/www/static";
           tryFiles = "$uri /index.html";
           extraConfig = ''
@@ -122,7 +122,7 @@
           '';
         };
 
-        locations."/dev/" = {
+        locations."/" = {
           proxyPass = "http://frontend";
           extraConfig = ''
 
