@@ -122,20 +122,22 @@
           '';
         };
 
-        locations."/".extraConfig = ''
-          return 301 /_next;
+        locations."/site".extraConfig = ''
+          return 301 /;
         '';
 
-        locations."~ \.css".extraConfig = ''
-          add_header  Content-Type    text/css;
-        '';
-        locations."~ \.js".extraConfig = ''
-          add_header  Content-Type    application/x-javascript;
-        '';
+        # locations."~ \.css".extraConfig = ''
+        #   add_header  Content-Type    text/css;
+        # '';
+        # locations."~ \.js".extraConfig = ''
+        #   add_header  Content-Type    application/x-javascript;
+        # '';
 
-        locations."/_next" = {
+        locations."/" = {
           proxyPass = "http://frontend";
           extraConfig = ''
+
+          proxy_pass_header Content-Type;
 
           proxy_redirect                      off;
           proxy_set_header Host               $host;
@@ -144,6 +146,7 @@
           proxy_set_header X-Forwarded-Proto  $scheme;
           proxy_read_timeout          1m;
           proxy_connect_timeout       1m;
+
 
           # add_header 'Access-Control-Allow-Origin' '*' always;
 
