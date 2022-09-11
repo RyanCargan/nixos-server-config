@@ -135,8 +135,8 @@
           gzip on;
 
           # Enable SharedArrayBuffer
-          add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
-          add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
+          # add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
+          # add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
 
           add_header 'Access-Control-Allow-Origin' '*' always;
           add_header 'Access-Control-Allow-Methods' 'POST, PUT, DELETE, GET, PATCH, OPTIONS' always;
@@ -148,10 +148,10 @@
 
           add_header X-XSS-Protection "1; mode=block";
           add_header X-Permitted-Cross-Domain-Policies none;
-          add_header X-Frame-Options DENY;
+          # add_header X-Frame-Options DENY;
           # add_header X-Content-Type-Options nosniff;
-          add_header Referrer-Policy same-origin;
-          add_header X-Download-Options noopen;
+          # add_header Referrer-Policy same-origin;
+          # add_header X-Download-Options noopen;
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "upgrade";
