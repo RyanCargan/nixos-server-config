@@ -126,7 +126,9 @@
           proxyPass = "http://frontend";
           extraConfig = ''
 
-          allow all;
+          # allow all;
+          add_header  Content-Type    application/x-javascript;
+          add_header  Content-Type    text/css;
 
           etag on;
           gzip on;
@@ -143,7 +145,7 @@
             return 204;
           }
 
-          # add_header X-XSS-Protection "1; mode=block";
+          add_header X-XSS-Protection "1; mode=block";
           add_header X-Permitted-Cross-Domain-Policies none;
           add_header X-Frame-Options DENY;
           add_header X-Content-Type-Options nosniff;
