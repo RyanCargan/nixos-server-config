@@ -126,6 +126,8 @@
           proxyPass = "http://frontend";
           extraConfig = ''
 
+          allow all;
+
           etag on;
           gzip on;
 
