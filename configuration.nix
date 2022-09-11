@@ -122,21 +122,31 @@
           '';
         };
 
-        locations."/dev" = {
+        locations."/dev/" = {
           proxyPass = "http://frontend";
           extraConfig = ''
+
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Forwarded-Host $host;
+          proxy_set_header X-Forwarded-Port $server_port;
 
           # allow all;
           # add_header  Content-Type    application/x-javascript;
           # add_header  Content-Type    text/css;
           # add_header  Content-Type    text/html;
 
-          etag on;
-          gzip on;
+          # etag on;
+          # gzip on;
 
           # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          # proxy_set_header X-Real-IP $remote_addr;
+          # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
           # Enable SharedArrayBuffer
           # add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
@@ -161,7 +171,7 @@
           # proxy_set_header Connection "upgrade";
           # proxy_set_header Host $host;
 
-          client_max_body_size 16m;
+          # client_max_body_size 16m;
 
           '';
         };
