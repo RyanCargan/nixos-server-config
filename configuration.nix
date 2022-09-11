@@ -122,7 +122,7 @@
           '';
         };
 
-        locations."/dev/" = {
+        locations."/dev" = {
           proxyPass = "http://frontend";
           extraConfig = ''
 
