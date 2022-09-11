@@ -126,6 +126,13 @@
           return 301 /_next;
         '';
 
+        locations."~ \.css".extraConfig = ''
+          add_header  Content-Type    text/css;
+        '';
+        locations."~ \.js".extraConfig = ''
+          add_header  Content-Type    application/x-javascript;
+        '';
+
         locations."/_next" = {
           proxyPass = "http://frontend";
           extraConfig = ''
