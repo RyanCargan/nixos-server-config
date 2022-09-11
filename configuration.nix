@@ -138,7 +138,7 @@
 
           # allow all;
           # add_header  Content-Type    application/x-javascript;
-          # add_header  Content-Type    text/css;
+          add_header  Content-Type    text/css;
           # add_header  Content-Type    text/html;
 
           # etag on;
