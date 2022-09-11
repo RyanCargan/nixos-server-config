@@ -131,8 +131,12 @@
           # add_header  Content-Type    text/css;
           # add_header  Content-Type    text/html;
 
-          # etag on;
-          # gzip on;
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
           # Enable SharedArrayBuffer
           # add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
@@ -157,7 +161,7 @@
           # proxy_set_header Connection "upgrade";
           # proxy_set_header Host $host;
 
-          # client_max_body_size 16m;
+          client_max_body_size 16m;
 
           '';
         };
