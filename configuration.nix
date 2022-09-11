@@ -73,6 +73,10 @@
       server 127.0.0.1:5010 backup;
     }
 
+    location = / {
+      return 301 /site;
+    }
+
     '';
 
     virtualHosts = {
@@ -122,19 +126,27 @@
           '';
         };
 
-        locations."/" = {
+        locations."/site" = {
           proxyPass = "http://frontend";
           extraConfig = ''
 
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $host;
-          proxy_set_header X-Forwarded-Port $server_port;
+          proxy_redirect                      off;
+          proxy_set_header Host               $host;
+          proxy_set_header X-Real-IP          $remote_addr;
+          proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto  $scheme;
+          proxy_read_timeout          1m;
+          proxy_connect_timeout       1m;
+
+          # proxy_http_version 1.1;
+          # proxy_set_header Upgrade $http_upgrade;
+          # proxy_set_header Connection "upgrade";
+          # proxy_set_header Host $host;
+          # proxy_set_header X-Real-IP $remote_addr;
+          # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          # proxy_set_header X-Forwarded-Proto $scheme;
+          # proxy_set_header X-Forwarded-Host $host;
+          # proxy_set_header X-Forwarded-Port $server_port;
 
           # allow all;
           # add_header  Content-Type    application/x-javascript;
