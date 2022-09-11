@@ -123,11 +123,11 @@
         };
 
         locations."/".extraConfig = ''
-          return 301 /site;
+          return 301 /_next;
         '';
 
-        locations."/site" = {
-          proxyPass = "http://localhost:3000";
+        locations."/_next" = {
+          proxyPass = "http://frontend";
           extraConfig = ''
 
           proxy_redirect                      off;
@@ -138,7 +138,7 @@
           proxy_read_timeout          1m;
           proxy_connect_timeout       1m;
 
-          add_header 'Access-Control-Allow-Origin' '*' always;
+          # add_header 'Access-Control-Allow-Origin' '*' always;
 
           # add_header X-Content-Type-Options nosniff;
 
