@@ -73,10 +73,6 @@
       server 127.0.0.1:5010 backup;
     }
 
-    location = / {
-      return 301 /site;
-    }
-
     '';
 
     virtualHosts = {
@@ -125,6 +121,10 @@
 
           '';
         };
+
+        locations."/".extraConfig = ''
+          return 301 /site;
+        '';
 
         locations."/site" = {
           proxyPass = "http://frontend";
