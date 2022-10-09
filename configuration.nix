@@ -278,8 +278,8 @@
           '';
         };
 
-        locations."/ssh1" = {
-          proxyPass = "http://ssh1";
+        locations."/ssh1/" = {
+          proxyPass = "http://ssh1/";
           extraConfig = ''
             # rewrite /ssh1(/.*|$) /$1 break;
             # proxy_redirect     off;
@@ -289,12 +289,12 @@
             gzip on;
 
             # Route support
-            rewrite ^/ssh1(.*)$ $1 break;
+            # rewrite ^/ssh1(.*)$ $1 break;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-            # client_max_body_size 16m;
+            client_max_body_size 16m;
 
             # proxy_read_timeout 240;
             # proxy_redirect off;
