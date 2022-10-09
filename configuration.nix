@@ -275,9 +275,11 @@
           '';
         };
 
-        locations."/ssh1" = {
+        locations."/ssh1/" = {
           proxyPass = "http://ssh1/";
           extraConfig = ''
+            rewrite ^/[^\/]+)(/.*) $1 break;
+
             etag on;
             gzip on;
 
