@@ -275,7 +275,7 @@
           '';
         };
 
-        locations."/ssh1/" = {
+        locations."/ssh1" = {
           proxyPass = "http://ssh1/";
           extraConfig = ''
             etag on;
