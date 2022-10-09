@@ -172,6 +172,22 @@
         #   '';
         # };
 
+        locations."/k3s" = {
+          proxyPass = "http://localhost:7080";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+
         locations."/" = {
           proxyPass = "http://frontend";
           extraConfig = ''
