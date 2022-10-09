@@ -332,7 +332,7 @@
     # Ops
     k3s
     kubectl
-    helm
+    kubernetes-helm
     helm-docs
   ];
 
