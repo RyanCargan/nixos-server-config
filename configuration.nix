@@ -331,6 +331,9 @@
     rustup
     # Ops
     k3s
+    kubectl
+    helm
+    helm-docs
   ];
 
   system.stateVersion = "21.11";
