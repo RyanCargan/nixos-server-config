@@ -261,10 +261,12 @@
         #   add_header  Content-Type    application/x-javascript;
         # '';
 
-        locations."/ssh1/" = {
-          proxyPass = "http://ssh1/";
+        locations."/ssh1" = {
+          proxyPass = "http://ssh1";
           extraConfig = ''
-            rewrite ^/ssh1/(.*) /$1 break;
+            rewrite /ssh1/(.*) /$1 break;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
 
             etag on;
             gzip on;
