@@ -97,7 +97,7 @@
     }
 
     upstream ssh {
-        server 127.0.0.1:22;
+        server 127.0.0.1:3100;
     }
 
     # upstream ssh1 {
@@ -198,8 +198,14 @@
         locations."/" = {
           proxyPass = "http://ssh/";
           extraConfig = ''
-            proxy_set_header  X-Real-IP  $remote_addr;
-            proxy_set_header  Host $host;
+            etag on;
+            gzip on;
+
+            # Route support
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            client_max_body_size 16m;
           '';
         };
 
