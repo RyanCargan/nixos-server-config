@@ -225,6 +225,18 @@
           '';
         };
 
+        locations."/ssh/" = {
+          extraConfig = ''
+          if ( $arg_address != "" ) {
+            # proxy_pass $arg_address;
+
+            # proxy_pass $arg_address$uri # example.com/ssh/name?address=http://192.168.10.2:8080/ goes to http://192.168.10.2:8080/ssh/name
+
+            # proxy_pass $arg_address$request_uri
+          }
+          '';
+        };
+
         locations."/api/" = {
           proxyPass = "http://backend/";
           extraConfig = ''
