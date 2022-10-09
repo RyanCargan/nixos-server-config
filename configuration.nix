@@ -62,7 +62,7 @@
   };
 
   services.nginx = {
-    enable = false;
+    enable = true;
 
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
@@ -100,8 +100,13 @@
     }
 
     upstream ssh {
-        server 127.0.0.1:3100;
-        server 127.0.0.1:4100 backup;
+      server 127.0.0.1:3100;
+      server 127.0.0.1:4100 backup;
+    }
+
+    upstream cplane {
+      server 127.0.0.1:6443;
+      server 127.0.0.1:6443 backup;
     }
     '';
 
@@ -173,7 +178,7 @@
         # };
 
         locations."/k3s/" = {
-          proxyPass = "http://10.42.0.21/";
+          proxyPass = "http://cplane/";
           extraConfig = ''
 
           etag on;
