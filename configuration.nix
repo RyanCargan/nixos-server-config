@@ -96,6 +96,41 @@
       server 127.0.0.1:5010 backup;
     }
 
+    upstream ssh1 {
+      server 127.0.0.1:3101;
+      server 127.0.0.1:4101 backup;
+    }
+
+    upstream ssh2 {
+      server 127.0.0.1:3102;
+      server 127.0.0.1:4102 backup;
+    }
+
+    upstream ssh3 {
+      server 127.0.0.1:3103;
+      server 127.0.0.1:4103 backup;
+    }
+
+    upstream ssh4 {
+      server 127.0.0.1:3104;
+      server 127.0.0.1:4104 backup;
+    }
+
+    upstream ssh5 {
+      server 127.0.0.1:3105;
+      server 127.0.0.1:4105 backup;
+    }
+
+    upstream ssh6 {
+      server 127.0.0.1:3106;
+      server 127.0.0.1:4106 backup;
+    }
+
+    upstream ssh7 {
+      server 127.0.0.1:3107;
+      server 127.0.0.1:4107 backup;
+    }
+
     '';
 
     virtualHosts = {
@@ -225,15 +260,120 @@
           '';
         };
 
-        locations."/ssh/" = {
+        # locations."/ssh/" = {
+        #   extraConfig = ''
+        #   if ( $arg_address != "" ) {
+        #     # proxy_pass $arg_address;
+
+        #     # proxy_pass $arg_address$uri # example.com/ssh/name?address=http://192.168.10.2:8080/ goes to http://192.168.10.2:8080/ssh/name
+
+        #     # proxy_pass $arg_address$request_uri
+        #   }
+        #   '';
+        # };
+        locations."/ssh1/" = {
+          proxyPass = "http://ssh1/";
           extraConfig = ''
-          if ( $arg_address != "" ) {
-            # proxy_pass $arg_address;
 
-            # proxy_pass $arg_address$uri # example.com/ssh/name?address=http://192.168.10.2:8080/ goes to http://192.168.10.2:8080/ssh/name
+          etag on;
+          gzip on;
 
-            # proxy_pass $arg_address$request_uri
-          }
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh2/" = {
+          proxyPass = "http://ssh2/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh3/" = {
+          proxyPass = "http://ssh3/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh4/" = {
+          proxyPass = "http://ssh4/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh5/" = {
+          proxyPass = "http://ssh5/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh6/" = {
+          proxyPass = "http://ssh6/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
+          '';
+        };
+        locations."/ssh7/" = {
+          proxyPass = "http://ssh7/";
+          extraConfig = ''
+
+          etag on;
+          gzip on;
+
+          # Route support
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          client_max_body_size 16m;
+
           '';
         };
 
