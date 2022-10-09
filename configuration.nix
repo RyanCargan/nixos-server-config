@@ -262,20 +262,20 @@
         # '';
 
         locations."/ssh1/" = {
-          proxyPass = "http://ssh1/";
+          proxyPass = "http://localhost:3101/";
           extraConfig = ''
             # rewrite /ssh1(/.*|$) /$1 break;
             # proxy_redirect     off;
             # proxy_set_header   Host $host;
 
-            etag on;
-            gzip on;
+            # etag on;
+            # gzip on;
 
             # Route support
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            # proxy_set_header X-Real-IP $remote_addr;
+            # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-            client_max_body_size 16m;
+            # client_max_body_size 16m;
           '';
         };
 
