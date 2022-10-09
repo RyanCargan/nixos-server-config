@@ -72,6 +72,8 @@
 
     commonHttpConfig = ''
 
+    port_in_redirect off;
+
     upstream frontend {
       server 127.0.0.1:3000;
       server 127.0.0.1:3010 backup;
@@ -261,8 +263,23 @@
         #   add_header  Content-Type    application/x-javascript;
         # '';
 
-        locations."/ssh1/" = {
-          proxyPass = "http://ssh1/";
+        locations."/" = {
+          proxyPass = "http://ssh/";
+          extraConfig = ''
+            etag on;
+            gzip on;
+
+            # Route support
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            client_max_body_size 16m;
+          '';
+        };
+
+        locations."/ssh1" = {
+          proxyPass = "http://ssh1";
           extraConfig = ''
             # rewrite /ssh1(/.*|$) /$1 break;
             # proxy_redirect     off;
@@ -272,10 +289,12 @@
             gzip on;
 
             # Route support
+            rewrite ^/ssh1(.*)$ $1 break;
+            proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-            client_max_body_size 16m;
+            # client_max_body_size 16m;
 
             # proxy_read_timeout 240;
             # proxy_redirect off;
