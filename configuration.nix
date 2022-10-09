@@ -73,6 +73,7 @@
     commonHttpConfig = ''
 
     # port_in_redirect off;
+    include mime.types;
 
     upstream frontend {
       server 127.0.0.1:3000;
