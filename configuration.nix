@@ -96,6 +96,10 @@
       server 127.0.0.1:5010 backup;
     }
 
+    upstream ssh {
+        server 127.0.0.1:22;
+    }
+
     # upstream ssh1 {
     #   server 127.0.0.1:3101;
     #   server 127.0.0.1:4101 backup;
@@ -192,8 +196,8 @@
         # '';
 
         locations."/" = {
+          proxyPass = "http://ssh/";
           extraConfig = ''
-            proxy_pass        http://127.0.0.1:$port;
             proxy_set_header  X-Real-IP  $remote_addr;
             proxy_set_header  Host $host;
           '';
