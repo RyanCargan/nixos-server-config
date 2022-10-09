@@ -96,40 +96,40 @@
       server 127.0.0.1:5010 backup;
     }
 
-    upstream ssh1 {
-      server 127.0.0.1:3101;
-      server 127.0.0.1:4101 backup;
-    }
+    # upstream ssh1 {
+    #   server 127.0.0.1:3101;
+    #   server 127.0.0.1:4101 backup;
+    # }
 
-    upstream ssh2 {
-      server 127.0.0.1:3102;
-      server 127.0.0.1:4102 backup;
-    }
+    # upstream ssh2 {
+    #   server 127.0.0.1:3102;
+    #   server 127.0.0.1:4102 backup;
+    # }
 
-    upstream ssh3 {
-      server 127.0.0.1:3103;
-      server 127.0.0.1:4103 backup;
-    }
+    # upstream ssh3 {
+    #   server 127.0.0.1:3103;
+    #   server 127.0.0.1:4103 backup;
+    # }
 
-    upstream ssh4 {
-      server 127.0.0.1:3104;
-      server 127.0.0.1:4104 backup;
-    }
+    # upstream ssh4 {
+    #   server 127.0.0.1:3104;
+    #   server 127.0.0.1:4104 backup;
+    # }
 
-    upstream ssh5 {
-      server 127.0.0.1:3105;
-      server 127.0.0.1:4105 backup;
-    }
+    # upstream ssh5 {
+    #   server 127.0.0.1:3105;
+    #   server 127.0.0.1:4105 backup;
+    # }
 
-    upstream ssh6 {
-      server 127.0.0.1:3106;
-      server 127.0.0.1:4106 backup;
-    }
+    # upstream ssh6 {
+    #   server 127.0.0.1:3106;
+    #   server 127.0.0.1:4106 backup;
+    # }
 
-    upstream ssh7 {
-      server 127.0.0.1:3107;
-      server 127.0.0.1:4107 backup;
-    }
+    # upstream ssh7 {
+    #   server 127.0.0.1:3107;
+    #   server 127.0.0.1:4107 backup;
+    # }
 
     '';
 
@@ -192,73 +192,81 @@
         # '';
 
         locations."/" = {
-          proxyPass = "http://frontend";
           extraConfig = ''
-
-          proxy_pass_header Content-Type;
-
-          proxy_redirect                      off;
-          proxy_set_header Host               $host;
-          proxy_set_header X-Real-IP          $remote_addr;
-          proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto  $scheme;
-          proxy_read_timeout          1m;
-          proxy_connect_timeout       1m;
-
-
-          # add_header 'Access-Control-Allow-Origin' '*' always;
-
-          # add_header X-Content-Type-Options nosniff;
-
-          # proxy_http_version 1.1;
-          # proxy_set_header Upgrade $http_upgrade;
-          # proxy_set_header Connection "upgrade";
-          # proxy_set_header Host $host;
-          # proxy_set_header X-Real-IP $remote_addr;
-          # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          # proxy_set_header X-Forwarded-Proto $scheme;
-          # proxy_set_header X-Forwarded-Host $host;
-          # proxy_set_header X-Forwarded-Port $server_port;
-
-          # allow all;
-          # add_header  Content-Type    application/x-javascript;
-          # add_header  Content-Type    text/css;
-          # add_header  Content-Type    text/html;
-
-          # etag on;
-          # gzip on;
-
-          # Route support
-          # proxy_set_header X-Real-IP $remote_addr;
-          # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-          # Enable SharedArrayBuffer
-          # add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
-          # add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
-
-          # add_header 'Access-Control-Allow-Origin' '*' always;
-          # add_header 'Access-Control-Allow-Methods' 'POST, PUT, DELETE, GET, PATCH, OPTIONS' always;
-          # add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Idempotency-Key' always;
-          # add_header 'Access-Control-Expose-Headers' 'Link, X-RateLimit-Reset, X-RateLimit-Limit, X-RateLimit-Remaining, X-Request-Id' always;
-          # if ($request_method = OPTIONS) {
-          #   return 204;
-          # }
-
-          # add_header X-XSS-Protection "1; mode=block";
-          # add_header X-Permitted-Cross-Domain-Policies none;
-          # add_header X-Frame-Options DENY;
-          # add_header X-Content-Type-Options nosniff;
-          # add_header Referrer-Policy same-origin;
-          # add_header X-Download-Options noopen;
-          # proxy_http_version 1.1;
-          # proxy_set_header Upgrade $http_upgrade;
-          # proxy_set_header Connection "upgrade";
-          # proxy_set_header Host $host;
-
-          # client_max_body_size 16m;
-
-          '';
+            proxy_pass        http://127.0.0.1:$port;
+            proxy_set_header  X-Real-IP  $remote_addr;
+            proxy_set_header  Host $host;
+          ''
         };
+
+        # locations."/" = {
+        #   proxyPass = "http://frontend";
+        #   extraConfig = ''
+
+        #   proxy_pass_header Content-Type;
+
+        #   proxy_redirect                      off;
+        #   proxy_set_header Host               $host;
+        #   proxy_set_header X-Real-IP          $remote_addr;
+        #   proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        #   proxy_set_header X-Forwarded-Proto  $scheme;
+        #   proxy_read_timeout          1m;
+        #   proxy_connect_timeout       1m;
+
+
+        #   # add_header 'Access-Control-Allow-Origin' '*' always;
+
+        #   # add_header X-Content-Type-Options nosniff;
+
+        #   # proxy_http_version 1.1;
+        #   # proxy_set_header Upgrade $http_upgrade;
+        #   # proxy_set_header Connection "upgrade";
+        #   # proxy_set_header Host $host;
+        #   # proxy_set_header X-Real-IP $remote_addr;
+        #   # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # proxy_set_header X-Forwarded-Proto $scheme;
+        #   # proxy_set_header X-Forwarded-Host $host;
+        #   # proxy_set_header X-Forwarded-Port $server_port;
+
+        #   # allow all;
+        #   # add_header  Content-Type    application/x-javascript;
+        #   # add_header  Content-Type    text/css;
+        #   # add_header  Content-Type    text/html;
+
+        #   # etag on;
+        #   # gzip on;
+
+        #   # Route support
+        #   # proxy_set_header X-Real-IP $remote_addr;
+        #   # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        #   # Enable SharedArrayBuffer
+        #   # add_header 'Cross-Origin-Embedder-Policy' 'require-corp' always;
+        #   # add_header 'Cross-Origin-Opener-Policy' 'same-origin' always;
+
+        #   # add_header 'Access-Control-Allow-Origin' '*' always;
+        #   # add_header 'Access-Control-Allow-Methods' 'POST, PUT, DELETE, GET, PATCH, OPTIONS' always;
+        #   # add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Idempotency-Key' always;
+        #   # add_header 'Access-Control-Expose-Headers' 'Link, X-RateLimit-Reset, X-RateLimit-Limit, X-RateLimit-Remaining, X-Request-Id' always;
+        #   # if ($request_method = OPTIONS) {
+        #   #   return 204;
+        #   # }
+
+        #   # add_header X-XSS-Protection "1; mode=block";
+        #   # add_header X-Permitted-Cross-Domain-Policies none;
+        #   # add_header X-Frame-Options DENY;
+        #   # add_header X-Content-Type-Options nosniff;
+        #   # add_header Referrer-Policy same-origin;
+        #   # add_header X-Download-Options noopen;
+        #   # proxy_http_version 1.1;
+        #   # proxy_set_header Upgrade $http_upgrade;
+        #   # proxy_set_header Connection "upgrade";
+        #   # proxy_set_header Host $host;
+
+        #   # client_max_body_size 16m;
+
+        #   '';
+        # };
 
         # locations."/ssh/" = {
         #   extraConfig = ''
@@ -271,111 +279,111 @@
         #   }
         #   '';
         # };
-        locations."/ssh1/" = {
-          proxyPass = "http://ssh1/";
-          extraConfig = ''
+        # locations."/ssh1/" = {
+        #   proxyPass = "http://ssh1/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh2/" = {
-          proxyPass = "http://ssh2/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh2/" = {
+        #   proxyPass = "http://ssh2/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh3/" = {
-          proxyPass = "http://ssh3/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh3/" = {
+        #   proxyPass = "http://ssh3/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh4/" = {
-          proxyPass = "http://ssh4/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh4/" = {
+        #   proxyPass = "http://ssh4/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh5/" = {
-          proxyPass = "http://ssh5/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh5/" = {
+        #   proxyPass = "http://ssh5/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh6/" = {
-          proxyPass = "http://ssh6/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh6/" = {
+        #   proxyPass = "http://ssh6/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
-        locations."/ssh7/" = {
-          proxyPass = "http://ssh7/";
-          extraConfig = ''
+        #   '';
+        # };
+        # locations."/ssh7/" = {
+        #   proxyPass = "http://ssh7/";
+        #   extraConfig = ''
 
-          etag on;
-          gzip on;
+        #   etag on;
+        #   gzip on;
 
-          # Route support
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #   # Route support
+        #   proxy_set_header X-Real-IP $remote_addr;
+        #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-          client_max_body_size 16m;
+        #   client_max_body_size 16m;
 
-          '';
-        };
+        #   '';
+        # };
 
         locations."/api/" = {
           proxyPass = "http://backend/";
