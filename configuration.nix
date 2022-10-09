@@ -173,7 +173,7 @@
         # };
 
         locations."/k3s/" = {
-          proxyPass = "http://demo.devlocal.me/";
+          proxyPass = "http://10.42.0.21/";
           extraConfig = ''
 
           etag on;
