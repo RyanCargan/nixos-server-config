@@ -261,25 +261,9 @@
         #   add_header  Content-Type    application/x-javascript;
         # '';
 
-        locations."/" = {
-          proxyPass = "http://ssh/";
-          extraConfig = ''
-            etag on;
-            gzip on;
-
-            # Route support
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-            client_max_body_size 16m;
-          '';
-        };
-
         locations."/ssh1/" = {
           proxyPass = "http://ssh1/";
           extraConfig = ''
-            rewrite ^/[^\/]+)(/.*) $1 break;
-
             etag on;
             gzip on;
 
@@ -681,6 +665,20 @@
 
           client_max_body_size 16m;
 
+          '';
+        };
+
+        locations."/" = {
+          proxyPass = "http://ssh/";
+          extraConfig = ''
+            etag on;
+            gzip on;
+
+            # Route support
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            client_max_body_size 16m;
           '';
         };
       };
