@@ -62,7 +62,7 @@
   };
 
   services.nginx = {
-    enable = false;
+    enable = true;
 
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
@@ -115,6 +115,9 @@
         http2 = true;
         enableACME = true;
         forceSSL = true;
+
+        # locations."/" = {
+        # }
 
         locations."/dev" = {
           root = "/var/www/static";
@@ -262,7 +265,7 @@
           '';
         };
 
-        locations."/api/" = {
+        locations."/backend/" = {
           proxyPass = "http://backend/";
           extraConfig = ''
 
@@ -344,6 +347,8 @@
     neovim
     # Node packages
     nodejs nodePackages.pnpm nodePackages.pm2
+    # Java
+    adoptopenjdk-hotspot-bin-16
     # Golang
     go_1_18
     # Deno
