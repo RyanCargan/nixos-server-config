@@ -49,6 +49,16 @@
     6443 # This is required so that pod can reach the API server (running on port 6443 by default)
   ];
 
+  # Database
+  services.postgresql.enable = true;
+  services.postgresql.package = pkgs.postgresql_14;
+  services.postgresql.extraPlugins = with pkgs.postgresql_14.pkgs; [
+    pgtap
+    postgis
+    timescaledb
+    # age
+  ];
+
   services.k3s.enable = false;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
