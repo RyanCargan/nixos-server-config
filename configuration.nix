@@ -59,6 +59,8 @@
     # age
   ];
 
+  nix.settings.experimental-features = [ "nix-command" ];
+
   services.k3s.enable = false;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
@@ -72,7 +74,7 @@
   };
 
   services.nginx = {
-    enable = true;
+    enable = false;
 
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
